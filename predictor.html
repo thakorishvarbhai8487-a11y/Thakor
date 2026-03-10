@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Colour Result Tracker</title>
+
+<style>
+body{
+background:black;
+color:#00ff00;
+font-family:monospace;
+text-align:center;
+}
+
+.box{
+border:2px solid #00ff00;
+margin:10px auto;
+padding:10px;
+width:90%;
+}
+
+button{
+padding:10px 20px;
+margin:5px;
+background:#00ff00;
+border:none;
+font-weight:bold;
+}
+
+#history{
+max-height:200px;
+overflow:auto;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Colour Result Dashboard</h2>
+
+<div class="box">
+<div id="period">Period: Loading...</div>
+<div id="timer">00:00</div>
+</div>
+
+<div class="box">
+<h3>Record Result</h3>
+<button onclick="addResult('GREEN')">GREEN</button>
+<button onclick="addResult('RED')">RED</button>
+<button onclick="addResult('VIOLET')">VIOLET</button>
+</div>
+
+<div class="box">
+<h3>Statistics</h3>
+<div>GREEN: <span id="g">0</span></div>
+<div>RED: <span id="r">0</span></div>
+<div>VIOLET: <span id="v">0</span></div>
+</div>
+
+<div class="box">
+<h3>History</h3>
+<div id="history"></div>
+</div>
+
+<script>
+
+function updatePeriod(){
+
+let now=new Date();
+
+let seconds=now.getSeconds();
+let remain=60-seconds;
+
+let date=now.toISOString().slice(0,10).replace(/-/g,"");
+
+let period=date+String(now.getMinutes()).padStart(4,"0");
+
+document.getElementById("period").innerText="Period: "+period;
+
+document.getElementById("timer").innerText="00:"+String(remain).padStart(2,"0");
+
+}
+
+setInterval(updatePeriod,1000);
+
+
+let g=0,r=0,v=0;
+
+function addResult(color){
+
+if(color=="GREEN"){g++;document.getElementById("g").innerText=g;}
+if(color=="RED"){r++;document.getElementById("r").innerText=r;}
+if(color=="VIOLET"){v++;document.getElementById("v").innerText=v;}
+
+let row=document.createElement("div");
+
+row.innerText=document.getElementById("period").innerText+" → "+color;
+
+document.getElementById("history").prepend(row);
+
+}
+
+</script>
+
+</body>
+</html>
